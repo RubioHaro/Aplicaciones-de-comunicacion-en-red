@@ -6,7 +6,7 @@ import os
 #from os import getcwd
 if __name__=="__main__":
     argumentos=sys.argv
-    HOST_SERVER = "192.168.42.13"
+    HOST_SERVER = "192.168.68.115"
     PORT_SERVER = 0
     HOST_CLIENT = "0.0.0.0"
     PORT_CLIENT = 5005

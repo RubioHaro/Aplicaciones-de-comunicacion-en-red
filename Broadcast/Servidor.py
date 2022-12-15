@@ -6,10 +6,6 @@ from os import getcwd
 
 def conection(dirName,mySocketP,fSize,Broad):
     myFiles = getFilesNames(ruta=getcwd()+"/src/"+dirName)
-#    data,myClient = mySocketP.recvfrom(fSize)
-#    msj = data.decode()
-#    print("\n"+msj)
-    #Enviar nombre de Carpeta
     print("Carpeta a enviar: "+dirName)
     print(myFiles)
     mySocketP.sendto(dirName.encode(),Broad)
@@ -34,16 +30,19 @@ def getDirNames(ruta = getcwd()+"/src"):
 def getFilesNames(ruta = getcwd()+"/src"):
     return [arch.name for arch in os.scandir(ruta) if arch.is_file()]
 
-HOST_Broad = "10.10.20.255"
+HOST_Broad = "192.168.3.255"
 PORT_Broad = 5005
 FILE_SIZE=200
 myBroad=(HOST_Broad,PORT_Broad)
-
+print("Iniciando Servidor")
+print("Servidor en: "+HOST_Broad+":"+str(PORT_Broad))
 
 with socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP) as mySocket:
+    print("Socket creado")
     mySocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST,1)
     mySocket.setsockopt(socket.SOL_SOCKET, socket.SO_BINDTODEVICE, str("tap0" + '\0').encode('utf-8'))
     dirNames=getDirNames()
+    print(dirNames)
     directoriesTH=list()
     for i in range(len(dirNames)):
         conection(dirNames[i],mySocket,FILE_SIZE,myBroad)
